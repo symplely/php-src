@@ -284,7 +284,7 @@ Build: $build_dir
 
 EOT
 );
-/* list build-in extensions */
+/* list built-in extensions */
 $exts = get_loaded_extensions();
 fprintf($fp, "\r\nBuilt-in Extensions\r\n");
 fwrite($fp, "===========================\r\n");
@@ -335,9 +335,13 @@ libenchant_ispell.dll
 $ENCHANT_DLLS = array(
     array('', 'glib-2.dll'),
     array('', 'gmodule-2.dll'),
-    array('lib/enchant', 'libenchant_myspell.dll'),
-    array('lib/enchant', 'libenchant_ispell.dll'),
 );
+if (file_exists("$php_build_dir/bin/libenchant2.dll")) {
+    $ENCHANT_DLLS[] = array('lib/enchant', 'libenchant2_hunspell.dll');
+} else {
+    $ENCHANT_DLLS[] = array('lib/enchant', 'libenchant_myspell.dll');
+    $ENCHANT_DLLS[] = array('lib/enchant', 'libenchant_ispell.dll');
+}
 foreach ($ENCHANT_DLLS as $dll) {
     $dest  = "$dist_dir/$dll[0]";
     $filename = $dll[1];
@@ -350,6 +354,22 @@ foreach ($ENCHANT_DLLS as $dll) {
 
     if (!copy($php_build_dir . '/bin/' . $filename, "$dest/" . basename($filename))) {
             echo "WARNING: couldn't copy $filename into the dist dir";
+    }
+}
+
+$OPENSSL_DLLS = $php_build_dir . "/lib/ossl-modules/*.dll";
+$fls = glob($OPENSSL_DLLS);
+if (!empty($fls)) {
+    $openssl_dest_dir = "$dist_dir/extras/ssl";
+    if (!file_exists($openssl_dest_dir) || !is_dir($openssl_dest_dir)) {
+        if (!mkdir($openssl_dest_dir, 0777, true)) {
+            echo "WARNING: couldn't create '$openssl_dest_dir' for OpenSSL providers ";
+        }
+    }
+    foreach ($fls as $fl) {
+        if (!copy($fl, "$openssl_dest_dir/" . basename($fl))) {
+            echo "WARNING: couldn't copy $fl into the $openssl_dest_dir";
+        }
     }
 }
 
@@ -496,7 +516,7 @@ $dirs = array(
 foreach ($dirs as $dir) {
     copy_test_dir($dir, $test_dir);
 }
-copy('run-tests.php', $test_dir . '/run-test.php');
+copy('run-tests.php', $test_dir . '/run-tests.php');
 
 /* change this next line to true to use good-old
  * hand-assembled go-pear-bundle from the snapshot template */
