@@ -1784,3 +1784,15 @@ ZEND_API void zend_map_ptr_extend(size_t last)
 		CG(map_ptr_last) = last;
 	}
 }
+
+ZEND_API ZEND_COLD void zend_value_error(const char *format, ...) /* {{{ */
+{
+	va_list va;
+	char *message = NULL;
+
+	va_start(va, format);
+	zend_vspprintf(&message, 0, format, va);
+	zend_throw_exception(zend_ce_value_error, message, 0);
+	efree(message);
+	va_end(va);
+} /* }}} */
