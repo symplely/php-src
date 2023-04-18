@@ -1098,16 +1098,20 @@ static zend_always_inline zval *zend_try_array_init(zval *zv)
  */
 #define FAST_ZPP 1
 
-#define Z_EXPECTED_TYPES(_) \
-	_(Z_EXPECTED_LONG,		"int") \
-	_(Z_EXPECTED_BOOL,		"bool") \
-	_(Z_EXPECTED_STRING,	"string") \
-	_(Z_EXPECTED_ARRAY,		"array") \
-	_(Z_EXPECTED_FUNC,		"valid callback") \
-	_(Z_EXPECTED_RESOURCE,	"resource") \
-	_(Z_EXPECTED_PATH,		"a valid path") \
-	_(Z_EXPECTED_OBJECT,	"object") \
-	_(Z_EXPECTED_DOUBLE,	"float")
+#define Z_EXPECTED_TYPES(_)              \
+	_(Z_EXPECTED_LONG, "int")            \
+	_(Z_EXPECTED_BOOL, "bool")           \
+	_(Z_EXPECTED_STRING, "string")       \
+	_(Z_EXPECTED_ARRAY, "array")         \
+	_(Z_EXPECTED_FUNC, "valid callback") \
+	_(Z_EXPECTED_RESOURCE, "resource")   \
+	_(Z_EXPECTED_PATH, "a valid path")   \
+	_(Z_EXPECTED_OBJECT, "object")       \
+	_(Z_EXPECTED_DOUBLE, "float") \
+	_(Z_EXPECTED_OBJECT_OR_CLASS_NAME, "an object or a valid class name") \
+	_(Z_EXPECTED_OBJECT_OR_CLASS_NAME_OR_NULL, "an object, a valid class name, or null") \
+	_(Z_EXPECTED_OBJECT_OR_STRING, "of type object|string") \
+	_(Z_EXPECTED_OBJECT_OR_STRING_OR_NULL, "of type object|string|null")
 
 #define Z_EXPECTED_TYPE_ENUM(id, str) id,
 #define Z_EXPECTED_TYPE_STR(id, str)  str,
@@ -1135,6 +1139,9 @@ ZEND_API ZEND_COLD void ZEND_FASTCALL zend_wrong_callback_exception(int num, cha
 #define ZPP_ERROR_WRONG_CLASS    3
 #define ZPP_ERROR_WRONG_ARG      4
 #define ZPP_ERROR_WRONG_COUNT    5
+
+#define ZPP_ERROR_WRONG_CLASS_OR_STRING 5
+#define ZPP_ERROR_WRONG_CLASS_OR_STRING_OR_NULL 6
 
 #define ZEND_PARSE_PARAMETERS_START_EX(flags, min_num_args, max_num_args) do { \
 		const int _flags = (flags); \
@@ -1427,6 +1434,26 @@ ZEND_API ZEND_COLD void ZEND_FASTCALL zend_wrong_callback_exception(int num, cha
 #define Z_PARAM_OBJECT_OF_CLASS(dest, _ce) \
 	Z_PARAM_OBJECT_OF_CLASS_EX(dest, _ce, 0, 0)
 
+#define Z_PARAM_OBJ_OF_CLASS_OR_STR_EX(destination_object, base_ce, destination_string, allow_null) \
+	Z_PARAM_PROLOGUE(0, 0); \
+	if (UNEXPECTED(!zend_parse_arg_obj_or_str(_arg, &destination_object, base_ce, &destination_string, allow_null, _i))) { \
+		if (base_ce) { \
+			_error = ZSTR_VAL((base_ce)->name); \
+			_error_code = allow_null ? ZPP_ERROR_WRONG_CLASS_OR_STRING_OR_NULL : ZPP_ERROR_WRONG_CLASS_OR_STRING; \
+			break; \
+		} else { \
+			_expected_type = allow_null ? Z_EXPECTED_OBJECT_OR_STRING_OR_NULL : Z_EXPECTED_OBJECT_OR_STRING; \
+			_error_code = ZPP_ERROR_WRONG_ARG; \
+			break; \
+		} \
+	}
+
+#define Z_PARAM_OBJ_OF_CLASS_OR_STR(destination_object, base_ce, destination_string) \
+	Z_PARAM_OBJ_OF_CLASS_OR_STR_EX(destination_object, base_ce, destination_string, 0);
+
+#define Z_PARAM_OBJ_OF_CLASS_OR_STR_OR_NULL(destination_object, base_ce, destination_string) \
+	Z_PARAM_OBJ_OF_CLASS_OR_STR_EX(destination_object, base_ce, destination_string, 1);
+
 /* old "p" */
 #define Z_PARAM_PATH_EX2(dest, dest_len, check_null, deref, separate) \
 		Z_PARAM_PROLOGUE(deref, separate); \
@@ -1441,6 +1468,55 @@ ZEND_API ZEND_COLD void ZEND_FASTCALL zend_wrong_callback_exception(int num, cha
 
 #define Z_PARAM_PATH(dest, dest_len) \
 	Z_PARAM_PATH_EX(dest, dest_len, 0, 0)
+
+#define Z_PARAM_PROLOGUE(deref, separate)               \
+	++_i;                                               \
+	ZEND_ASSERT(_i <= _min_num_args || _optional == 1); \
+	ZEND_ASSERT(_i > _min_num_args || _optional == 0);  \
+	if (_optional)                                      \
+	{                                                   \
+		if (UNEXPECTED(_i > _num_args))                 \
+			break;                                      \
+	}                                                   \
+	_real_arg++;                                        \
+	_arg = _real_arg;                                   \
+	if (deref)                                          \
+	{                                                   \
+		if (EXPECTED(Z_ISREF_P(_arg)))                  \
+		{                                               \
+			_arg = Z_REFVAL_P(_arg);                    \
+		}                                               \
+	}                                                   \
+	if (separate)                                       \
+	{                                                   \
+		SEPARATE_ZVAL_NOREF(_arg);                      \
+	}
+
+/* old "a" */
+#define Z_PARAM_ARRAY_EX2(dest, check_null, deref, separate)                       \
+	Z_PARAM_PROLOGUE(deref, separate);                                             \
+	if (UNEXPECTED(!zend_parse_arg_array(_arg, &dest, check_null, 0)))             \
+	{                                                                              \
+		_expected_type = check_null ? Z_EXPECTED_ARRAY_OR_NULL : Z_EXPECTED_ARRAY; \
+		_error_code = ZPP_ERROR_WRONG_ARG;                                         \
+		break;                                                                     \
+	}
+
+#define Z_PARAM_ARRAY_EX(dest, check_null, separate) \
+	Z_PARAM_ARRAY_EX2(dest, check_null, separate, separate)
+
+#define Z_PARAM_ARRAY_OR_NULL(dest) \
+	Z_PARAM_ARRAY_EX(dest, 1, 0)
+
+/* old "a" */
+#define Z_PARAM_ARRAY_EX2(dest, check_null, deref, separate)                       \
+	Z_PARAM_PROLOGUE(deref, separate);                                             \
+	if (UNEXPECTED(!zend_parse_arg_array(_arg, &dest, check_null, 0)))             \
+	{                                                                              \
+		_expected_type = check_null ? Z_EXPECTED_ARRAY_OR_NULL : Z_EXPECTED_ARRAY; \
+		_error_code = ZPP_ERROR_WRONG_ARG;                                         \
+		break;                                                                     \
+	}
 
 /* old "P" */
 #define Z_PARAM_PATH_STR_EX2(dest, check_null, deref, separate) \
@@ -1744,6 +1820,23 @@ static zend_always_inline void zend_parse_arg_zval(zval *arg, zval **dest, int c
 static zend_always_inline void zend_parse_arg_zval_deref(zval *arg, zval **dest, int check_null)
 {
 	*dest = (check_null && UNEXPECTED(Z_TYPE_P(arg) == IS_NULL)) ? NULL : arg;
+}
+
+static zend_always_inline bool zend_parse_arg_obj_or_str(
+	zval *arg, zend_object **destination_object, zend_class_entry *base_ce, zend_string **destination_string, bool allow_null, uint32_t arg_num)
+{
+	if (EXPECTED(Z_TYPE_P(arg) == IS_OBJECT))
+	{
+		if (!base_ce || EXPECTED(instanceof_function(Z_OBJCE_P(arg), base_ce)))
+		{
+			*destination_object = Z_OBJ_P(arg);
+			*destination_string = NULL;
+			return 1;
+		}
+	}
+
+	*destination_object = NULL;
+	return zend_parse_arg_str(arg, destination_string, allow_null);
 }
 
 END_EXTERN_C()
