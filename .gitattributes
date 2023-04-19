@@ -1,3 +1,4 @@
+* text=auto
 # Replace $Id$ strings with 40-character hexadecimal blob object name.
 /ext/ext_skel.php               ident
 /ext/phar/phar/pharcommand.inc  ident
