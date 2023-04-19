@@ -349,17 +349,15 @@ if test -z "$PHP_INSTALLED_SAPIS"; then
 fi
 
 dnl Force ZTS.
-if test "$enable_maintainer_zts" = "yes"; then
-  dnl Add pthreads linker and compiler flags.
-  if test -n "$ac_cv_pthreads_lib"; then
-    LIBS="$LIBS -l$ac_cv_pthreads_lib"
+dnl Add pthreads linker and compiler flags.
+if test -n "$ac_cv_pthreads_lib"; then
+  LIBS="$LIBS -l$ac_cv_pthreads_lib"
   fi
   if test -n "$ac_cv_pthreads_cflags"; then
     CFLAGS="$CFLAGS $ac_cv_pthreads_cflags"
   fi
 
   PTHREADS_FLAGS
-fi
 
 dnl Starting system checks.
 dnl ----------------------------------------------------------------------------
