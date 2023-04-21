@@ -273,3 +273,4 @@ tmp-php.ini
 *.dep
 php-src-*/
 php-sdk/
+.vscode/settings.json
