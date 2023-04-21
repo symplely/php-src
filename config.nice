@@ -1,0 +1,25 @@
+#! /bin/sh
+#
+# Created by configure
+
+'./configure' \
+'--disable-all' \
+'--with-ffi' \
+'--with-iconv' \
+'--enable-json' \
+'--enable-filter' \
+'--with-openssl' \
+'--enable-sockets' \
+'--enable-mbstring' \
+'--enable-dom' \
+'--enable-xml' \
+'--with-libxml' \
+'--with-zip' \
+'--enable-xmlwriter' \
+'--enable-tokenizer' \
+'--enable-embed' \
+'--enable-phar' \
+'--with-pear' \
+'--disable-phpdbg' \
+'--disable-cgi' \
+"$@"
