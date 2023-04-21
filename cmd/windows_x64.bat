@@ -26,4 +26,8 @@ set PHP_SDK_ROOT_PATH=%PHP_SDK_ROOT_PATH:~0,-1%
 set PHP_SDK_RUN_FROM_ROOT=.\php-sdk
 set ARCH=x64
 copy /Y ..\cmd\phpsdk_setshell.bat bin\phpsdk_setshell.bat
-bin\phpsdk_setshell.bat %CRT% x64 && bin\phpsdk_setvars.bat && bin\phpsdk_dumpenv.bat && bin\phpsdk_buildtree.bat phpdev && cd php-%PHP_VER% && ..\..\..\..\bin\phpsdk_deps -u --no-backup && buildconf --add-modules-dir=..\pecl\ && configure --enable-cli --with-ffi --with-iconv --enable-phar --enable-json --enable-filter --with-openssl --enable-sockets --enable-mbstring --with-libxml --enable-fileinfo --enable-xmlwriter --enable-tokenizer --enable-embed --disable-phpdbg --disable-cgi && nmake snap && cd ..\..\..\..\..
+bin\phpsdk_setshell.bat %CRT% x64 && bin\phpsdk_setvars.bat && bin\phpsdk_dumpenv.bat && bin\phpsdk_buildtree.bat phpdev && cd php-%PHP_VER% && ..\..\..\..\bin\phpsdk_deps -u --no-backup && IF EXIST config.nice.bat (
+  config.nice.bat && nmake %SNAP% && cd ..\..\..\..\..
+) else (
+  buildconf --add-modules-dir=..\pecl\ && configure --enable-cli --with-ffi --with-iconv --enable-phar --enable-json --enable-filter --with-openssl --enable-sockets --enable-mbstring --with-libxml --enable-fileinfo --enable-xmlwriter --enable-tokenizer --enable-embed --disable-phpdbg --disable-cgi %OPTIONS% && nmake %SNAP% && cd ..\..\..\..\..
+)
