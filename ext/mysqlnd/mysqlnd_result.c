@@ -244,7 +244,12 @@ MYSQLND_METHOD(mysqlnd_result_buffered, free_result)(MYSQLND_RES_BUFFERED * cons
 {
 
 	DBG_ENTER("mysqlnd_result_buffered::free_result");
-	DBG_INF_FMT("Freeing "PRIu64" row(s)", set->row_count);
+#ifdef _WIN64
+	DBG_INF_FMT("Freeing row(%s)", set->row_count);
+#else
+	DBG_INF_FMT("Freeing " PRIu64 " row(s)", set->row_count);
+#endif
+
 
 	mysqlnd_error_info_free_contents(&set->error_info);
 

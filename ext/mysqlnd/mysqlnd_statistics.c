@@ -204,8 +204,11 @@ mysqlnd_fill_stats_hash(const MYSQLND_STATS * const stats, const MYSQLND_STRING 
 	array_init_size(return_value, stats->count);
 	for (i = 0; i < stats->count; i++) {
 		char tmp[25];
-
+#ifdef _WIN64
+		sprintf((char *)&tmp, "%i", stats->values[i]);
+#else
 		sprintf((char *)&tmp, "%" PRIu64, stats->values[i]);
+#endif
 		add_assoc_string_ex(return_value, names[i].s, names[i].l, tmp);
 	}
 }

@@ -54,9 +54,15 @@ typedef int32_t zend_off_t;
 #define ZEND_LTOA_BUF_LEN 65
 
 #ifdef ZEND_ENABLE_ZVAL_LONG64
-# define ZEND_LONG_FMT "%" PRId64
-# define ZEND_ULONG_FMT "%" PRIu64
-# define ZEND_XLONG_FMT "%" PRIx64
+#ifdef _WIN64
+# define ZEND_LONG_FMT "%i"
+# define ZEND_ULONG_FMT "%lo"
+# define ZEND_XLONG_FMT "%x"
+#else
+#define ZEND_LONG_FMT "%" PRId64
+#define ZEND_ULONG_FMT "%" PRIu64
+#define ZEND_XLONG_FMT "%" PRIx64
+#endif
 # define ZEND_LONG_FMT_SPEC PRId64
 # define ZEND_ULONG_FMT_SPEC PRIu64
 # ifdef ZEND_WIN32
