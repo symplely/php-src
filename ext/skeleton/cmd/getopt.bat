@@ -16,5 +16,5 @@ shift
 goto parse
 :endparse
 if not defined PHP_VER (
-    set PHP_VER=8.2.5
+    set PHP_VER=7.4.33
 )
