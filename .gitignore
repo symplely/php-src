@@ -149,9 +149,9 @@ php
 # ------------------------------------------------------------------------------
 /main/ext/json/json_parser.tab.h
 /main/ext/json/json_parser.tab.c
-/sapi/phpdbg/phpdbg_parser.c
-/sapi/phpdbg/phpdbg_parser.h
-/sapi/phpdbg/phpdbg_parser.output
+/main/sapi/phpdbg/phpdbg_parser.c
+/main/sapi/phpdbg/phpdbg_parser.h
+/main/sapi/phpdbg/phpdbg_parser.output
 /main/Zend/zend_ini_parser.c
 /main/Zend/zend_ini_parser.h
 /main/Zend/zend_ini_parser.output
