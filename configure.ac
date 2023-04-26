@@ -10,8 +10,8 @@ m4_include([build/libtool.m4])
 m4_include([build/php_cxx_compile_stdcxx.m4])
 m4_include([build/php.m4])
 m4_include([build/pkg.m4])
-m4_include([TSRM/threads.m4])
-m4_include([TSRM/tsrm.m4])
+m4_include([main/TSRM/threads.m4])
+m4_include([main/TSRM/tsrm.m4])
 
 dnl Basic autoconf initialization, generation of config.nice.
 dnl ----------------------------------------------------------------------------
@@ -309,7 +309,7 @@ esac
 dnl Include Zend configurations.
 dnl ----------------------------------------------------------------------------
 
-sinclude(Zend/Zend.m4)
+sinclude(main/Zend/Zend.m4)
 
 dnl ----------------------------------------------------------------------------
 
@@ -979,9 +979,9 @@ PHP_ARG_ENABLE([dtrace],
 
 if test "$PHP_DTRACE" = "yes"; then
   AC_CHECK_HEADERS([sys/sdt.h], [
-    PHP_INIT_DTRACE([Zend/zend_dtrace.d],[Zend/zend_dtrace_gen.h],[main/main.c Zend/zend_API.c \
-      Zend/zend_execute.c Zend/zend_exceptions.c \
-      Zend/zend_dtrace.c Zend/zend.c])
+    PHP_INIT_DTRACE([main/Zend/zend_dtrace.d],[main/Zend/zend_dtrace_gen.h],[main/main.c main/Zend/zend_API.c \
+      main/Zend/zend_execute.c main/Zend/zend_exceptions.c \
+      main/Zend/zend_dtrace.c main/Zend/zend.c])
     AC_DEFINE(HAVE_DTRACE, 1, [Whether to enable DTrace support])
     PHP_SUBST(PHP_DTRACE_OBJS)
   ], [
@@ -1228,7 +1228,7 @@ libdir=`eval echo $libdir`
 datadir=`eval eval echo $datadir`
 
 dnl Build extension directory path.
-ZEND_MODULE_API_NO=`$EGREP '#define ZEND_MODULE_API_NO ' $srcdir/Zend/zend_modules.h|"${SED}" 's/#define ZEND_MODULE_API_NO //'`
+ZEND_MODULE_API_NO=`$EGREP '#define ZEND_MODULE_API_NO ' $srcdir/main/Zend/zend_modules.h|"${SED}" 's/#define ZEND_MODULE_API_NO //'`
 
 if test -z "$EXTENSION_DIR"; then
   extbasedir=$ZEND_MODULE_API_NO
@@ -1464,7 +1464,7 @@ PHP_SUBST(all_targets)
 PHP_SUBST(install_targets)
 PHP_SUBST(install_binary_targets)
 
-PHP_INSTALL_HEADERS([Zend/ TSRM/ include/ main/ main/streams/])
+PHP_INSTALL_HEADERS([main/Zend/ main/TSRM/ include/ main/ main/streams/])
 
 PHP_ADD_SOURCES(TSRM, TSRM.c, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
@@ -1514,7 +1514,7 @@ PHP_ADD_BUILD_DIR(TSRM)
 PHP_ADD_BUILD_DIR(Zend)
 
 PHP_ADD_MAKEFILE_FRAGMENT($abs_srcdir/scripts/Makefile.frag,$abs_srcdir/scripts,scripts)
-PHP_ADD_MAKEFILE_FRAGMENT($abs_srcdir/Zend/Makefile.frag,$abs_srcdir/Zend,Zend)
+PHP_ADD_MAKEFILE_FRAGMENT($abs_srcdir/main/Zend/Makefile.frag,$abs_srcdir/Zend,Zend)
 
 PHP_GEN_BUILD_DIRS
 PHP_GEN_GLOBAL_MAKEFILE
@@ -1561,7 +1561,7 @@ dnl Create configuration headers.
 dnl ----------------------------------------------------------------------------
 test -d Zend || $php_shtool mkdir Zend
 
-cat >Zend/zend_config.h <<FEO
+cat >main/Zend/zend_config.h <<FEO
 #include <../main/php_config.h>
 FEO
 
