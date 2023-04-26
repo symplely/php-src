@@ -87,7 +87,7 @@ ps_fetch_from_1_to_8_bytes(zval * zv, const MYSQLND_FIELD * const field, const u
 				ZVAL_LONG(zv, (zend_long) uval); /* the cast is safe, we are in the range */
 			} else {
 				DBG_INF("stringify");
-#ifdef _WIN64
+#if defined(_WIN64) || defined(_WIN32)
 				tmp_len = sprintf((char *)&tmp, "%lu", uval);
 #else
 				tmp_len = sprintf((char *)&tmp, "%" PRIu64, uval);

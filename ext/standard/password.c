@@ -268,7 +268,7 @@ static zend_string* php_password_bcrypt_hash(const zend_string *password, zend_a
 		php_error_docref(NULL, E_WARNING, "Invalid bcrypt cost parameter specified: " ZEND_LONG_FMT, cost);
 		return NULL;
 	}
-#ifdef _WIN64
+#if defined(_WIN64) || defined(_WIN32)
 	hash_format_len = snprintf(hash_format, sizeof(hash_format), "$2y$%li02$", cost);
 #else
 	hash_format_len = snprintf(hash_format, sizeof(hash_format), "$2y$%02" ZEND_LONG_FMT_SPEC "$", cost);

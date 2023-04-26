@@ -487,19 +487,19 @@ void zend_accel_info(ZEND_MODULE_INFO_FUNC_ARGS)
 				snprintf(buf, sizeof(buf), "%zu", (size_t)((char*)ZCSG(interned_strings).end - (char*)ZCSG(interned_strings).top));
 				php_info_print_table_row(2, "Interned Strings Free memory", buf);
 			}
-#ifdef _WIN64
+#if defined(_WIN64) || defined(_WIN32)
 			snprintf(buf, sizeof(buf), "%i", ZCSG(hash).num_direct_entries);
 #else
 			snprintf(buf, sizeof(buf), "%" PRIu32, ZCSG(hash).num_direct_entries);
 #endif
 			php_info_print_table_row(2, "Cached scripts", buf);
-#ifdef _WIN64
+#if defined(_WIN64) || defined(_WIN32)
 			snprintf(buf, sizeof(buf), "%i", ZCSG(hash).num_entries);
 #else
 			snprintf(buf, sizeof(buf), "%" PRIu32, ZCSG(hash).num_entries);
 #endif
 			php_info_print_table_row(2, "Cached keys", buf);
-#ifdef _WIN64
+#if defined(_WIN64) || defined(_WIN32)
 			snprintf(buf, sizeof(buf), "%i", ZCSG(hash).max_num_entries);
 #else
 			snprintf(buf, sizeof(buf), "%" PRIu32, ZCSG(hash).max_num_entries);

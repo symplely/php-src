@@ -54,7 +54,7 @@ typedef int32_t zend_off_t;
 #define ZEND_LTOA_BUF_LEN 65
 
 #ifdef ZEND_ENABLE_ZVAL_LONG64
-#ifdef _WIN64
+#if defined(_WIN64) || defined(_WIN32)
 #define ZEND_LONG_FMT "%li"
 #define ZEND_ULONG_FMT "%llo"
 # define ZEND_XLONG_FMT "%lx"
@@ -122,7 +122,7 @@ typedef int32_t zend_off_t;
 
 static const char long_min_digits[] = LONG_MIN_DIGITS;
 
-#ifdef _WIN64
+#if defined(_WIN64) || defined(_WIN32)
 # define ZEND_ADDR_FMT "0x%016I64x"
 #elif SIZEOF_SIZE_T == 4
 # define ZEND_ADDR_FMT "0x%08zx"
