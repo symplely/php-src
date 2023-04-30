@@ -6,28 +6,28 @@ LTP = lcov
 LTP_GENHTML = genhtml
 
 LCOV_EXCLUDES = \
-	'$(top_srcdir)/main/ext/bcmath/libbcmath/*' \
-	'$(top_srcdir)/main/ext/date/lib/*' \
-	'$(top_srcdir)/main/ext/fileinfo/libmagic/*' \
-	'$(top_srcdir)/main/ext/gd/libgd/*' \
-	'$(top_srcdir)/main/ext/hash/sha3/*' \
-	'$(top_srcdir)/main/ext/mbstring/libmbfl/*' \
-	'$(top_srcdir)/main/ext/opcache/jit/libudis86/*' \
-	'$(top_srcdir)/main/ext/pcre/pcre2lib/*' \
-	'$(top_srcdir)/main/ext/xmlrpc/libxmlrpc/*' \
+	'$(top_srcdir)/src/ext/bcmath/libbcmath/*' \
+	'$(top_srcdir)/src/ext/date/lib/*' \
+	'$(top_srcdir)/src/ext/fileinfo/libmagic/*' \
+	'$(top_srcdir)/src/ext/gd/libgd/*' \
+	'$(top_srcdir)/src/ext/hash/sha3/*' \
+	'$(top_srcdir)/src/ext/mbstring/libmbfl/*' \
+	'$(top_srcdir)/src/ext/opcache/jit/libudis86/*' \
+	'$(top_srcdir)/src/ext/pcre/pcre2lib/*' \
+	'$(top_srcdir)/src/ext/xmlrpc/libxmlrpc/*' \
 	'$(top_srcdir)/parse_date.re' \
 	'$(top_srcdir)/parse_iso_intervals.re'
 
 GCOVR_EXCLUDES = \
-	'main/ext/bcmath/libbcmath/.*' \
-	'main/ext/date/lib/.*' \
-	'main/ext/fileinfo/libmagic/.*' \
-	'main/ext/gd/libgd/.*' \
-	'main/ext/hash/sha3/.*' \
-	'main/ext/mbstring/libmbfl/.*' \
-	'main/ext/opcache/jit/libudis86/.*' \
-	'main/ext/pcre/pcre2lib/.*' \
-	'main/ext/xmlrpc/libxmlrpc/.*'
+	'src/ext/bcmath/libbcmath/.*' \
+	'src/ext/date/lib/.*' \
+	'src/ext/fileinfo/libmagic/.*' \
+	'src/ext/gd/libgd/.*' \
+	'src/ext/hash/sha3/.*' \
+	'src/ext/mbstring/libmbfl/.*' \
+	'src/ext/opcache/jit/libudis86/.*' \
+	'src/ext/pcre/pcre2lib/.*' \
+	'src/ext/xmlrpc/libxmlrpc/.*'
 
 lcov: lcov-html
 
@@ -53,14 +53,14 @@ gcovr-html:
 	@rm -rf gcovr_html/
 	@mkdir gcovr_html
 	gcovr -sr . -o gcovr_html/index.html --html --html-details \
-		--exclude-directories 'main/ext/date/lib$$' \
+		--exclude-directories 'src/ext/date/lib$$' \
 		$(foreach lib, $(GCOVR_EXCLUDES), -e $(lib))
 
 gcovr-xml:
 	@echo "Generating gcovr XML"
 	@rm -f gcovr.xml
 	gcovr -sr . -o gcovr.xml --xml \
-		--exclude-directories 'main/ext/date/lib$$' \
+		--exclude-directories 'src/ext/date/lib$$' \
 		$(foreach lib, $(GCOVR_EXCLUDES), -e $(lib))
 
 .PHONY: gcovr-html lcov-html php_lcov.info

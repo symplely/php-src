@@ -26,7 +26,7 @@ while test $# -gt 0; do
 PHP buildconf
 
 A wrapper around the autoconf and autoheader that generate files for building
-PHP on *nix systems (configure and main/php_config.h.in). The configure script
+PHP on *nix systems (configure and src/php_config.h.in). The configure script
 is used to customize the PHP build based on the provided options and system. PHP
 releases downloaded from PHP.net already include the configure script so
 installing Autoconf and running buildconf is not needed. For the PHP sources
@@ -64,7 +64,7 @@ HELP
 done
 
 if test "$dev" = "0" && test "$force" = "0"; then
-  if test -f "configure" && test -f "main/php_config.h.in"; then
+  if test -f "configure" && test -f "src/php_config.h.in"; then
     echo "buildconf: The configure script is already built. All done."
     echo "           Run ./configure to proceed with customizing the PHP build."
     exit 0
@@ -118,7 +118,7 @@ rm -rf \
   autom4te.cache \
   config.cache \
   configure \
-  main/php_config.h.in
+  src/php_config.h.in
 
 if test "$debug" = "1"; then
   autoconf_flags="-f -Wall"
@@ -131,7 +131,7 @@ fi
 echo "buildconf: Rebuilding configure"
 $PHP_AUTOCONF $autoconf_flags
 
-echo "buildconf: Rebuilding main/php_config.h.in"
+echo "buildconf: Rebuilding src/php_config.h.in"
 $PHP_AUTOHEADER $autoheader_flags
 
 echo "buildconf: Run ./configure to proceed with customizing the PHP build."

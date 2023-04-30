@@ -2,7 +2,7 @@ mkinstalldirs = $(top_srcdir)/build/shtool mkdir -p
 INSTALL = $(top_srcdir)/build/shtool install -c
 INSTALL_DATA = $(INSTALL) -m 644
 
-DEFS = -DPHP_ATOM_INC -I$(top_builddir)/include -I$(top_builddir)/main -I$(top_srcdir)
+DEFS = -DPHP_ATOM_INC -I$(top_builddir)/include -I$(top_builddir)/src -I$(top_srcdir)
 COMMON_FLAGS = $(DEFS) $(INCLUDES) $(EXTRA_INCLUDES) $(CPPFLAGS) $(PHP_FRAMEWORKPATH)
 
 all: $(all_targets)
@@ -118,15 +118,15 @@ clean:
 	rm -f libphp$(PHP_MAJOR_VERSION).la $(SAPI_CLI_PATH) $(SAPI_CGI_PATH) $(SAPI_LITESPEED_PATH) $(SAPI_FPM_PATH) $(OVERALL_TARGET) modules/* libs/*
 
 distclean: clean
-	rm -f Makefile config.cache config.log config.status Makefile.objects Makefile.fragments libtool main/php_config.h main/internal_functions_cli.c main/internal_functions.c Zend/zend_dtrace_gen.h Zend/zend_dtrace_gen.h.bak Zend/zend_config.h
-	rm -f main/build-defs.h scripts/phpize
-	rm -f main/ext/date/lib/timelib_config.h main/ext/mbstring/libmbfl/config.h main/ext/oci8/oci8_dtrace_gen.h main/ext/oci8/oci8_dtrace_gen.h.bak
-	rm -f scripts/man1/phpize.1 scripts/php-config scripts/man1/php-config.1 sapi/cli/php.1 sapi/cgi/php-cgi.1 sapi/phpdbg/phpdbg.1 main/ext/phar/phar.1 main/ext/phar/phar.phar.1
-	rm -f sapi/fpm/php-fpm.conf sapi/fpm/init.d.php-fpm sapi/fpm/php-fpm.service sapi/fpm/php-fpm.8 sapi/fpm/status.html
-	rm -f main/ext/iconv/php_have_bsd_iconv.h main/ext/iconv/php_have_glibc_iconv.h main/ext/iconv/php_have_ibm_iconv.h main/ext/iconv/php_have_iconv.h main/ext/iconv/php_have_libiconv.h main/ext/iconv/php_iconv_aliased_libiconv.h main/ext/iconv/php_iconv_supports_errno.h main/ext/iconv/php_php_iconv_h_path.h main/ext/iconv/php_php_iconv_impl.h
-	rm -f main/ext/phar/phar.phar main/ext/phar/phar.php
+	rm -f Makefile config.cache config.log config.status Makefile.objects Makefile.fragments libtool src/php_config.h src/internal_functions_cli.c src/internal_functions.c src/Zend/zend_dtrace_gen.h src/Zend/zend_dtrace_gen.h.bak src/Zend/zend_config.h
+	rm -f src/build-defs.h scripts/phpize
+	rm -f src/ext/date/lib/timelib_config.h src/ext/mbstring/libmbfl/config.h src/ext/oci8/oci8_dtrace_gen.h src/ext/oci8/oci8_dtrace_gen.h.bak
+	rm -f scripts/man1/phpize.1 scripts/php-config scripts/man1/php-config.1 src/sapi/cli/php.1 src/sapi/cgi/php-cgi.1 src/sapi/phpdbg/phpdbg.1 src/ext/phar/phar.1 src/ext/phar/phar.phar.1
+	rm -f src/sapi/fpm/php-fpm.conf src/sapi/fpm/init.d.php-fpm src/sapi/fpm/php-fpm.service src/sapi/fpm/php-fpm.8 src/sapi/fpm/status.html
+	rm -f src/ext/iconv/php_have_bsd_iconv.h src/ext/iconv/php_have_glibc_iconv.h src/ext/iconv/php_have_ibm_iconv.h src/ext/iconv/php_have_iconv.h src/ext/iconv/php_have_libiconv.h src/ext/iconv/php_iconv_aliased_libiconv.h src/ext/iconv/php_iconv_supports_errno.h src/ext/iconv/php_php_iconv_h_path.h src/ext/iconv/php_php_iconv_impl.h
+	rm -f src/ext/phar/phar.phar src/ext/phar/phar.php
 	if test "$(srcdir)" != "$(builddir)"; then \
-	  rm -f main/ext/phar/phar/phar.inc; \
+	  rm -f src/ext/phar/phar/phar.inc; \
 	fi
 	$(EGREP) define'.*include/php' $(top_srcdir)/configure | $(SED) 's/.*>//'|xargs rm -f
 

@@ -10,7 +10,7 @@ PEAR_SUFFIX = -ds a$(program_suffix)
 PEAR_INSTALLER_URL = https://pear.php.net/install-pear-nozlib.phar
 
 install-pear-installer: $(SAPI_CLI_PATH)
-	@$(top_builddir)/sapi/cli/php $(PEAR_INSTALL_FLAGS) pear/install-pear-nozlib.phar -d "$(peardir)" -b "$(bindir)" ${PEAR_PREFIX} ${PEAR_SUFFIX}
+	@$(top_builddir)/src/sapi/cli/php $(PEAR_INSTALL_FLAGS) pear/install-pear-nozlib.phar -d "$(peardir)" -b "$(bindir)" ${PEAR_PREFIX} ${PEAR_SUFFIX}
 
 install-pear:
 	@echo "Installing PEAR environment:      $(INSTALL_ROOT)$(peardir)/"
@@ -23,7 +23,7 @@ install-pear:
 			elif test ! -z "$(FETCH)" && test -x "$(FETCH)"; then \
 				"$(FETCH)" -o $(builddir)/ "${PEAR_INSTALLER_URL}"; \
 			else \
-				$(top_builddir)/sapi/cli/php -n $(srcdir)/fetch.php "${PEAR_INSTALLER_URL}" $(builddir)/install-pear-nozlib.phar; \
+				$(top_builddir)/src/sapi/cli/php -n $(srcdir)/fetch.php "${PEAR_INSTALLER_URL}" $(builddir)/install-pear-nozlib.phar; \
 			fi \
 		fi \
 	fi

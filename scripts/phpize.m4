@@ -83,7 +83,7 @@ AC_MSG_CHECKING([if debug is enabled])
 old_CPPFLAGS=$CPPFLAGS
 CPPFLAGS="-I$phpincludedir"
 AC_EGREP_CPP(php_debug_is_enabled,[
-#include <main/php_config.h>
+#include <src/php_config.h>
 #if ZEND_DEBUG
 php_debug_is_enabled
 #endif
@@ -99,7 +99,7 @@ AC_MSG_CHECKING([if zts is enabled])
 old_CPPFLAGS=$CPPFLAGS
 CPPFLAGS="-I$phpincludedir"
 AC_EGREP_CPP(php_zts_is_enabled,[
-#include <main/php_config.h>
+#include <src/php_config.h>
 #if ZTS
 php_zts_is_enabled
 #endif

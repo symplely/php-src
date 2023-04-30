@@ -1945,17 +1945,17 @@ AC_DEFUN([PHP_SETUP_ICONV], [
   unset ICONV_DIR
 
   dnl Create the directories for a VPATH build.
-  $php_shtool mkdir -p main/ext/iconv
+  $php_shtool mkdir -p src/ext/iconv
 
-  echo > main/ext/iconv/php_have_bsd_iconv.h
-  echo > main/ext/iconv/php_have_ibm_iconv.h
-  echo > main/ext/iconv/php_have_glibc_iconv.h
-  echo > main/ext/iconv/php_have_libiconv.h
-  echo > main/ext/iconv/php_have_iconv.h
-  echo > main/ext/iconv/php_php_iconv_impl.h
-  echo > main/ext/iconv/php_iconv_aliased_libiconv.h
-  echo > main/ext/iconv/php_php_iconv_h_path.h
-  echo > main/ext/iconv/php_iconv_supports_errno.h
+  echo > src/ext/iconv/php_have_bsd_iconv.h
+  echo > src/ext/iconv/php_have_ibm_iconv.h
+  echo > src/ext/iconv/php_have_glibc_iconv.h
+  echo > src/ext/iconv/php_have_libiconv.h
+  echo > src/ext/iconv/php_have_iconv.h
+  echo > src/ext/iconv/php_php_iconv_impl.h
+  echo > src/ext/iconv/php_iconv_aliased_libiconv.h
+  echo > src/ext/iconv/php_php_iconv_h_path.h
+  echo > src/ext/iconv/php_iconv_supports_errno.h
 
   dnl Check libc first if no path is provided in --with-iconv.
   if test "$PHP_ICONV" = "yes"; then
@@ -2708,7 +2708,7 @@ dnl PACKAGE_* symbols are automatically defined by Autoconf. When including
 dnl configuration header, warnings about redefined symbols are emitted for such
 dnl symbols if they are defined by multiple libraries. This disables all
 dnl PACKAGE_* symbols in the generated configuration header template FILE. For
-dnl example, main/php_config.h.in for PHP or config.h.in for PHP extensions.
+dnl example, src/php_config.h.in for PHP or config.h.in for PHP extensions.
 dnl
 AC_DEFUN([PHP_PATCH_CONFIG_HEADERS], [
   AC_MSG_NOTICE([patching $1])
