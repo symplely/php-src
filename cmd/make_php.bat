@@ -18,6 +18,10 @@ if NOT EXIST php-sdk\phpdev\%CRT%\%ARCH%\php-%PHP_VER% (
 	mklink /j "php-sdk\phpdev\%CRT%\%ARCH%\php-%PHP_VER%" .
 )
 
+if NOT EXIST main (
+	mklink /j "main" src
+)
+
 cd php-sdk
 
 set "VSCMD_START_DIR=%CD%"
@@ -31,5 +35,5 @@ copy /Y ..\cmd\phpsdk_setshell.bat bin\phpsdk_setshell.bat
 bin\phpsdk_setshell.bat %CRT% %ARCH% && bin\phpsdk_setvars.bat && bin\phpsdk_dumpenv.bat && bin\phpsdk_buildtree.bat phpdev && cd php-%PHP_VER% && ..\..\..\..\bin\phpsdk_deps -u --no-backup && if EXIST config.nice.bat (
   config.nice.bat && nmake %SNAP% && cd ..\..\..\..\..
 ) else (
-  buildconf --force --add-modules-dir=..\pecl\ && configure --enable-cli --with-ffi --with-iconv%SHARE% --enable-phar%SHARE% --enable-filter%SHARE% --with-openssl%SHARE% --enable-sockets%SHARE% --enable-mbstring%SHARE% --with-libxml%SHARE% --enable-fileinfo%SHARE% --enable-xmlwriter%SHARE% --enable-tokenizer%SHARE% --enable-embed %EXT% %ZTS% %OPTIONS% && nmake %SNAP% && cd ..\..\..\..\..
+  buildconf --force --add-modules-dir=..\pecl\ && configure --enable-cli --with-ffi --with-iconv%SHARE% --enable-phar%SHARE% --enable-filter%SHARE% --with-openssl%SHARE% --enable-sockets%SHARE% --enable-mbstring%SHARE% --with-libxml%SHARE% --enable-fileinfo%SHARE% --enable-xmlwriter%SHARE% --enable-tokenizer%SHARE% --disable-phpdbg --enable-embed %EXT% %ZTS% %OPTIONS% && nmake %SNAP% && cd ..\..\..\..\..
 )

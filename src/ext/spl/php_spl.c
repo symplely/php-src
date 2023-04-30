@@ -38,7 +38,7 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 #include "ext/standard/php_mt_rand.h"
-#include "main/snprintf.h"
+#include "src/snprintf.h"
 
 #ifdef COMPILE_DL_SPL
 ZEND_GET_MODULE(spl)

@@ -19,8 +19,8 @@
    +----------------------------------------------------------------------+
 */
 
-#include "main/php.h"
-#include "main/php_globals.h"
+#include "src/php.h"
+#include "src/php_globals.h"
 #include "zend.h"
 #include "zend_extensions.h"
 #include "zend_compile.h"
@@ -33,10 +33,10 @@
 #include "zend_execute.h"
 #include "zend_inheritance.h"
 #include "zend_exceptions.h"
-#include "main/php_main.h"
-#include "main/SAPI.h"
-#include "main/php_streams.h"
-#include "main/php_open_temporary_file.h"
+#include "src/php_main.h"
+#include "src/SAPI.h"
+#include "src/php_streams.h"
+#include "src/php_open_temporary_file.h"
 #include "zend_API.h"
 #include "zend_ini.h"
 #include "zend_virtual_cwd.h"

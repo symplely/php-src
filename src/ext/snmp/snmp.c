@@ -26,7 +26,7 @@
 #endif
 
 #include "php.h"
-#include "main/php_network.h"
+#include "src/php_network.h"
 #include "ext/standard/info.h"
 #include "php_snmp.h"
 

@@ -17,7 +17,7 @@
 # define TSRM_WIN32
 # include "Zend/zend_config.w32.h"
 #else
-# include "main/php_config.h"
+# include "src/php_config.h"
 #endif
 
 #include <stdint.h>

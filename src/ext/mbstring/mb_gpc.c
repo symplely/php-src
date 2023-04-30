@@ -30,7 +30,7 @@
 #include "ext/standard/php_string.h"
 #include "ext/standard/php_mail.h"
 #include "ext/standard/url.h"
-#include "main/php_output.h"
+#include "src/php_output.h"
 #include "ext/standard/info.h"
 
 #include "php_variables.h"

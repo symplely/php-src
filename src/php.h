@@ -427,7 +427,7 @@ END_EXTERN_C()
 
 
 /* Output support */
-#include "main/php_output.h"
+#include "src/php_output.h"
 
 
 #include "php_streams.h"

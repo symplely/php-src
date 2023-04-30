@@ -141,7 +141,7 @@
  *******/
 
 #include "ext/xml/expat_compat.h"
-#include "main/php_reentrancy.h"
+#include "src/php_reentrancy.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

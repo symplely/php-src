@@ -23,7 +23,7 @@
 #include "php_zlib.h"
 #include "fopen_wrappers.h"
 
-#include "main/php_network.h"
+#include "src/php_network.h"
 
 struct php_gz_stream_data_t	{
 	gzFile gz_file;

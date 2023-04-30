@@ -19,8 +19,8 @@
    +----------------------------------------------------------------------+
 */
 
-#include "main/php.h"
-#include "main/fopen_wrappers.h"
+#include "src/php.h"
+#include "src/fopen_wrappers.h"
 #include "ZendAccelerator.h"
 #include "zend_accelerator_blacklist.h"
 

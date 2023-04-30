@@ -29,7 +29,7 @@
 #include "ext/standard/file.h"
 #include "ext/standard/info.h"
 #include "ext/standard/php_string.h"
-#include "main/php_network.h"
+#include "src/php_network.h"
 
 /* for fileno() */
 #include <stdio.h>

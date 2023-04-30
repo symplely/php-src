@@ -27,7 +27,7 @@
 #include "zend_exceptions.h"
 #include "zend_interfaces.h"
 #include "zend_closures.h"
-#include "main/SAPI.h"
+#include "src/SAPI.h"
 
 #include <ffi.h>
 

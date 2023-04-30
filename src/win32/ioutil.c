@@ -57,7 +57,7 @@
 #include "win32/time.h"
 #include "win32/ioutil.h"
 #include "win32/codepage.h"
-#include "main/streams/php_stream_plain_wrapper.h"
+#include "src/streams/php_stream_plain_wrapper.h"
 
 #include <pathcch.h>
 #include <winioctl.h>

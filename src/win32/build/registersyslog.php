@@ -8,7 +8,7 @@ $dll = $argv[1];
 $dll = addslashes($dll);
 
 file_put_contents(
-    "main/win32/syslog.reg", <<<REG
+    "src/win32/syslog.reg", <<<REG
 REGEDIT4
 
 [HKEY_LOCAL_MACHINE\\$PATH]

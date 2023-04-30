@@ -25,7 +25,7 @@
 #include "php.h"
 #include "php_globals.h"
 #include "ext/standard/info.h"
-#include "main/php_output.h"
+#include "src/php_output.h"
 #include "SAPI.h"
 #include "php_ini.h"
 

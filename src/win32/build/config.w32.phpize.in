@@ -38,7 +38,7 @@ if (PHP_PREFIX == '') {
 }
 DEFINE('PHP_PREFIX', PHP_PREFIX);
 
-DEFINE("BASE_INCLUDES", "/I " + PHP_DIR + "/include /I " + PHP_DIR + "/include/main /I " + PHP_DIR + "/include/Zend /I " + PHP_DIR + "/include/TSRM /I " + PHP_DIR + "/include/ext ");
+DEFINE("BASE_INCLUDES", "/I " + PHP_DIR + "/include /I " + PHP_DIR + "/include/src /I " + PHP_DIR + "/include/src/Zend /I " + PHP_DIR + "/include/src/TSRM /I " + PHP_DIR + "/include/src/ext ");
 
 toolset_setup_common_cflags();
 

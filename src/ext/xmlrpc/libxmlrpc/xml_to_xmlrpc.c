@@ -32,7 +32,7 @@
 
 
 #include "php.h"
-#include "main/snprintf.h"
+#include "src/snprintf.h"
 #include <string.h>
 #include <stdlib.h>
 #include "xml_to_xmlrpc.h"

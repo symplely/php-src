@@ -6,7 +6,7 @@ $(builddir)/zend_language_scanner.lo: $(srcdir)/zend_language_parser.h
 $(builddir)/zend_ini_scanner.lo: $(srcdir)/zend_ini_parser.h
 
 $(srcdir)/zend_language_scanner.c: $(srcdir)/zend_language_scanner.l
-	@(cd $(top_srcdir); $(RE2C) $(RE2C_FLAGS) --no-generation-date --case-inverted -cbdFt Zend/zend_language_scanner_defs.h -oZend/zend_language_scanner.c Zend/zend_language_scanner.l)
+	@(cd $(top_srcdir); $(RE2C) $(RE2C_FLAGS) --no-generation-date --case-inverted -cbdFt src/Zend/zend_language_scanner_defs.h -osrc/Zend/zend_language_scanner.c src/Zend/zend_language_scanner.l)
 
 $(srcdir)/zend_language_parser.h: $(srcdir)/zend_language_parser.c
 $(srcdir)/zend_language_parser.c: $(srcdir)/zend_language_parser.y
@@ -30,8 +30,8 @@ $(srcdir)/zend_ini_parser.c: $(srcdir)/zend_ini_parser.y
 	@$(YACC) -p ini_ -v -d $(srcdir)/zend_ini_parser.y -o $@
 
 $(srcdir)/zend_ini_scanner.c: $(srcdir)/zend_ini_scanner.l
-	@(cd $(top_srcdir); $(RE2C) $(RE2C_FLAGS) --no-generation-date --case-inverted -cbdFt Zend/zend_ini_scanner_defs.h -oZend/zend_ini_scanner.c Zend/zend_ini_scanner.l)
+	@(cd $(top_srcdir); $(RE2C) $(RE2C_FLAGS) --no-generation-date --case-inverted -cbdFt src/Zend/zend_ini_scanner_defs.h -osrc/Zend/zend_ini_scanner.c src/Zend/zend_ini_scanner.l)
 
 $(builddir)/zend_highlight.lo $(builddir)/zend_compile.lo: $(srcdir)/zend_language_parser.h
 
-Zend/zend_execute.lo: $(srcdir)/zend_vm_execute.h $(srcdir)/zend_vm_opcodes.h
+src/Zend/zend_execute.lo: $(srcdir)/zend_vm_execute.h $(srcdir)/zend_vm_opcodes.h

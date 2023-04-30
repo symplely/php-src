@@ -5,7 +5,7 @@
 #endif
 
 #include "winresrc.h"
-#include "main/php_version.h"
+#include "src/php_version.h"
 
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
@@ -15,7 +15,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #endif
 
 #ifdef WANT_LOGO
-0 ICON main\win32\build\php.ico
+0 ICON src\win32\build\php.ico
 #endif
 
 #ifndef INTERNAL_NAME /* e.g. 'PHAR extension', 'CGI SAPI' */

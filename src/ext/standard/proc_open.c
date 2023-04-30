@@ -33,7 +33,7 @@
 #include "exec.h"
 #include "php_globals.h"
 #include "SAPI.h"
-#include "main/php_network.h"
+#include "src/php_network.h"
 #include "zend_smart_string.h"
 
 #if HAVE_SYS_WAIT_H

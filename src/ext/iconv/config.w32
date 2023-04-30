@@ -16,7 +16,7 @@ if (PHP_ICONV != "no") {
 		AC_DEFINE("ICONV_SUPPORTS_ERRNO", 1, "Whether iconv supports errno or not");
 		ADD_FLAG("CFLAGS_ICONV", "/D PHP_ICONV_EXPORTS ");
 		if (!PHP_ICONV_SHARED) {
-			ADD_DEF_FILE("ext\\iconv\\php_iconv.def");
+			ADD_DEF_FILE("src\\ext\\iconv\\php_iconv.def");
 		}
 		PHP_INSTALL_HEADERS("", "src/ext/iconv");
 	} else {

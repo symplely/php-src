@@ -48,7 +48,7 @@ FILE_RCSID("@(#)$File: funcs.c,v 1.104 2019/05/07 02:27:11 christos Exp $")
 #endif
 
 #include "php.h"
-#include "main/php_network.h"
+#include "src/php_network.h"
 
 #ifndef PREG_OFFSET_CAPTURE
 # define PREG_OFFSET_CAPTURE                 (1<<8)

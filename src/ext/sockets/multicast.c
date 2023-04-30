@@ -39,7 +39,7 @@
 #include "php_sockets.h"
 #include "multicast.h"
 #include "sockaddr_conv.h"
-#include "main/php_network.h"
+#include "src/php_network.h"
 
 
 enum source_op {

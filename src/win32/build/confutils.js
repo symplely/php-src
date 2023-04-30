@@ -82,7 +82,7 @@ if (MODE_PHPIZE) {
 		WScript.Quit(10);
 	}
 } else {
-	if (!FSO.FileExists("main\\php_version.h")) {
+	if (!FSO.FileExists("src\\php_version.h")) {
 		STDERR.WriteLine("Must be run from the root of the php source");
 		WScript.Quit(10);
 	}
@@ -91,7 +91,7 @@ if (MODE_PHPIZE) {
 var CWD = WshShell.CurrentDirectory;
 
 if (typeof(CWD) == "undefined") {
-	CWD = FSO.GetParentFolderName(FSO.GetParentFolderName(FSO.GetAbsolutePathName("main\\php_version.h")));
+	CWD = FSO.GetParentFolderName(FSO.GetParentFolderName(FSO.GetAbsolutePathName("src\\php_version.h")));
 }
 
 if (!MODE_PHPIZE) {
@@ -1048,8 +1048,8 @@ function generate_version_info_manifest(makefiletarget)
 		MFO.WriteLine("$(BUILD_DIR)\\" + manifest_name + ": " + PHP_DIR + "\\build\\default.manifest");
 		MFO.WriteLine("\t" + CMD_MOD2 + "copy " + PHP_DIR + "\\build\\default.manifest $(BUILD_DIR)\\" + makefiletarget + ".manifest >nul");
 	} else {
-        MFO.WriteLine("$(BUILD_DIR)\\" + manifest_name + ": main\\win32\\build\\default.manifest");
-        MFO.WriteLine("\t" + CMD_MOD2 + "copy $(PHP_SRC_DIR)\\main\\win32\\build\\default.manifest $(BUILD_DIR)\\" + makefiletarget + ".manifest >nul");
+        MFO.WriteLine("$(BUILD_DIR)\\" + manifest_name + ": src\\win32\\build\\default.manifest");
+        MFO.WriteLine("\t" + CMD_MOD2 + "copy $(PHP_SRC_DIR)\\src\\win32\\build\\default.manifest $(BUILD_DIR)\\" + makefiletarget + ".manifest >nul");
 	}
 
 	return manifest_name;
@@ -1143,12 +1143,12 @@ function generate_version_info_resource(makefiletarget, basename, creditspath, s
 			'\\"" /d INTERNAL_NAME="\\"' + internal_name + versioning +
 			'\\"" /d THANKS_GUYS="\\"' + thanks + '\\"" $(PHP_DIR)\\build\\template.rc');
 	} else {
-        MFO.WriteLine("$(BUILD_DIR)\\" + resname + ": main\\win32\\build\\template.rc");
+        MFO.WriteLine("$(BUILD_DIR)\\" + resname + ": src\\win32\\build\\template.rc");
 		MFO.WriteLine("\t" + CMD_MOD1 + "$(RC) /nologo  $(BASE_INCLUDES) /n /fo $(BUILD_DIR)\\" + resname + logo + debug +
 			' /d FILE_DESCRIPTION="\\"' + res_desc + '\\"" /d FILE_NAME="\\"'
 			+ makefiletarget + '\\"" /d URL="\\"' + project_url +
 			'\\"" /d INTERNAL_NAME="\\"' + internal_name + versioning +
-            '\\"" /d THANKS_GUYS="\\"' + thanks + '\\"" main\\win32\\build\\template.rc');
+            '\\"" /d THANKS_GUYS="\\"' + thanks + '\\"" src\\win32\\build\\template.rc');
 	}
 	MFO.WriteBlankLines(1);
 	return resname;
@@ -1530,11 +1530,11 @@ function EXTENSION(extname, file_list, shared, cflags, dllname, obj_dir)
 		DEFINE('CFLAGS_' + EXT + '_OBJ', '$(CFLAGS_PHP) $(CFLAGS_' + EXT + ')');
 	}
 	if (MODE_PHPIZE) {
-		if (!FSO.FileExists(PHP_DIR + "/include/main/config.pickle.h")) {
-			var _tmp = FSO.CreateTextFile(PHP_DIR + "/include/main/config.pickle.h", true);
+		if (!FSO.FileExists(PHP_DIR + "/include/src/config.pickle.h")) {
+			var _tmp = FSO.CreateTextFile(PHP_DIR + "/include/src/config.pickle.h", true);
 			_tmp.Close();
 		}
-		cflags = "/FI main/config.pickle.h " + cflags;
+		cflags = "/FI src/config.pickle.h " + cflags;
 	}
 	ADD_FLAG("CFLAGS_" + EXT, cflags);
 
@@ -1700,17 +1700,17 @@ function ADD_SOURCES(dir, file_list, target, obj_dir)
 			}
 
 			var cppcheck_platform = X64 ? "win64" : "win32A";
-            var cppcheck_lib = "main\\win32\\build\\cppcheck_" + (X64 ? "x64" : "x86") + ".cfg";
+            var cppcheck_lib = "src\\win32\\build\\cppcheck_" + (X64 ? "x64" : "x86") + ".cfg";
 			analyzer_base_args += "--enable=warning,performance,portability,information,missingInclude " +
 						"--platform=" + cppcheck_platform + " " +
 						"--library=windows.cfg --library=microsoft_sal.cfg " +
-						"--library=main\\win32\\build\\cppcheck.cfg " +
+						"--library=src\\win32\\build\\cppcheck.cfg " +
 						"--library=" + cppcheck_lib + " " +
-						/* "--rule-file=main\\win32\build\cppcheck_rules.xml " + */
+						/* "--rule-file=src\\win32\build\cppcheck_rules.xml " + */
 						" --std=c89 --std=c++11 " +
 						"--quiet --inconclusive --template=vs -j 4 " +
 						"--suppress=unmatchedSuppression " +
-						"--suppressions-list=main\\win32\\build\\cppcheck_suppress.txt ";
+						"--suppressions-list=src\\win32\\build\\cppcheck_suppress.txt ";
 
 			var cppcheck_build_dir = get_define("CPPCHECK_BUILD_DIR");
 			if (!!cppcheck_build_dir) {
@@ -1800,17 +1800,17 @@ function generate_internal_functions()
 	var infile, outfile;
 	var indata;
 
-	STDOUT.WriteLine("Generating main/internal_functions.c");
+	STDOUT.WriteLine("Generating src/internal_functions.c");
 
-	infile = FSO.OpenTextFile("main/internal_functions.c.in", 1);
+	infile = FSO.OpenTextFile("src/internal_functions.c.in", 1);
 	indata = infile.ReadAll();
 	infile.Close();
 
 	indata = indata.replace("@EXT_INCLUDE_CODE@", extension_include_code);
 	indata = indata.replace("@EXT_MODULE_PTRS@", extension_module_ptrs);
 
-	if (FSO.FileExists("main/internal_functions.c")) {
-		var origdata = file_get_contents("main/internal_functions.c");
+	if (FSO.FileExists("src/internal_functions.c")) {
+		var origdata = file_get_contents("src/internal_functions.c");
 
 		if (origdata == indata) {
 			STDOUT.WriteLine("\t[content unchanged; skipping]");
@@ -1818,7 +1818,7 @@ function generate_internal_functions()
 		}
 	}
 
-	outfile = FSO.CreateTextFile("main/internal_functions.c", true);
+	outfile = FSO.CreateTextFile("src/internal_functions.c", true);
 	outfile.Write(indata);
 	outfile.Close();
 }
@@ -2177,7 +2177,7 @@ function generate_config_pickle_h()
 	var outfile = null;
 	var lines = new Array();
 	var keys = (new VBArray(configure_hdr.Keys())).toArray();
-	dest = PHP_DIR + "/include/main";
+	dest = PHP_DIR + "/include/src";
 
 	var ignore_key = function(key) {
 		var ignores = [ "CONFIGURE_COMMAND", "PHP_COMPILER_ID", "COMPILER", "ARCHITECTURE", "HAVE_STRNLEN", "PHP_DIR" ];
@@ -2192,7 +2192,7 @@ function generate_config_pickle_h()
 	}
 
 
-	STDOUT.WriteLine("Generating main/config.pickle.h");
+	STDOUT.WriteLine("Generating src/config.pickle.h");
 
 	if (FSO.FileExists(dest + "/config.pickle.h")) {
 		outfile = FSO.OpenTextFile(dest + "/config.pickle.h", 1);
@@ -2253,13 +2253,13 @@ function generate_config_h()
 
 	prefix = PHP_PREFIX.replace(new RegExp("\\\\", "g"), "\\\\");
 
-	STDOUT.WriteLine("Generating main/config.w32.h");
+	STDOUT.WriteLine("Generating src/config.w32.h");
 
-    infile = FSO.OpenTextFile("main/win32/build/config.w32.h.in", 1);
+    infile = FSO.OpenTextFile("src/win32/build/config.w32.h.in", 1);
 	indata = infile.ReadAll();
 	infile.Close();
 
-	outfile = FSO.CreateTextFile("main/config.w32.h", true);
+	outfile = FSO.CreateTextFile("src/config.w32.h", true);
 
 	indata = indata.replace(new RegExp("@PREFIX@", "g"), prefix);
 	outfile.Write(indata);
@@ -2356,9 +2356,9 @@ function generate_phpize()
 	}
 
 	MF.WriteBlankLines(2);
-    MF.WriteLine("/* Genereted main/win32/build/phpize.js.in */");
+    MF.WriteLine("/* Genereted src/win32/build/phpize.js.in */");
 	MF.WriteBlankLines(1);
-    MF.Write(file_get_contents("main/win32/build/phpize.js.in"));
+    MF.Write(file_get_contents("src/win32/build/phpize.js.in"));
 	MF.Close();
 	DEPS.Close();
 
@@ -2539,7 +2539,7 @@ function generate_makefile()
 	if (MODE_PHPIZE) {
 		var TF = FSO.OpenTextFile(PHP_DIR + "/script/Makefile.phpize", 1);
 	} else {
-        var TF = FSO.OpenTextFile("main/win32/build/Makefile", 1);
+        var TF = FSO.OpenTextFile("src/win32/build/Makefile", 1);
 	}
 
 	MF.Write(TF.ReadAll());

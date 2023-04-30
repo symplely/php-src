@@ -3479,7 +3479,7 @@ class JUnit
         }
         do {
             array_unshift($_tmp, basename($dir));
-            $chk = $dir . DIRECTORY_SEPARATOR . "main" . DIRECTORY_SEPARATOR . "php_version.h";
+            $chk = $dir . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "php_version.h";
             $dir = dirname($dir);
         } while (!file_exists($chk) && --$max > 0);
         if (file_exists($chk)) {
