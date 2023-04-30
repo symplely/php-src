@@ -269,7 +269,7 @@ tmp-php.ini
 !/src/ext/fileinfo/libmagic.patch
 !/src/ext/fileinfo/magicdata.patch
 !/src/ext/pcre/pcre2lib/config.h
-!/win32/build/Makefile
+!/src/win32/build/Makefile
 *.dep
 php-src-*/
 php-sdk/
