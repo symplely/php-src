@@ -20,7 +20,7 @@
 #include "TSRM.h"
 #include <windows.h>
 #include <sys/utime.h>
-#include "win32/ipc.h"
+#include "src/win32/ipc.h"
 
 struct ipc_perm {
 	key_t		key;

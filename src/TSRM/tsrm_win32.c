@@ -29,8 +29,8 @@
 #include <Sddl.h>
 #include "tsrm_win32.h"
 #include "zend_virtual_cwd.h"
-#include "win32/ioutil.h"
-#include "win32/winutil.h"
+#include "src/win32/ioutil.h"
+#include "src/win32/winutil.h"
 
 #ifdef ZTS
 static ts_rsrc_id win32_globals_id;

@@ -1,5 +1,5 @@
 #ifdef PHP_WIN32
-#include "../../../../src/config.w32.h"
+#include "../../../../config.w32.h"
 #else
 #include <php_config.h>
 #endif

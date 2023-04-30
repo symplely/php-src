@@ -225,7 +225,7 @@ STDOUT.WriteBlankLines(1);
 STDOUT.WriteLine("Build dir: " + get_define('BUILD_DIR'));
 STDOUT.WriteLine("PHP Core:  " + get_define('PHPDLL') + " and " + get_define('PHPLIB'));
 
-ADD_SOURCES("Zend", "zend_language_parser.c zend_language_scanner.c \
+ADD_SOURCES("src/Zend", "zend_language_parser.c zend_language_scanner.c \
 	zend_ini_parser.c zend_ini_scanner.c zend_alloc.c zend_compile.c \
 	zend_constants.c zend_exceptions.c \
 	zend_execute_API.c zend_highlight.c \
