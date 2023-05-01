@@ -210,11 +210,10 @@ modules = file_get_contents("src/win32/build/config.w32");
 
 // Pick up confs from TSRM and Zend if present
 find_config_w32(".");
-find_config_w32("src");
-find_config_w32("src\\TSRM");
 find_config_w32("src\\sapi");
 find_config_w32("src\\ext");
 find_config_w32("src\\Zend");
+find_config_w32("src\\TSRM");
 emit_core_module_list();
 
 // If we have not specified any module dirs let's add some defaults

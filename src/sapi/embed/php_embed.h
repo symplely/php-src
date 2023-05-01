@@ -19,11 +19,11 @@
 #ifndef _PHP_EMBED_H_
 #define _PHP_EMBED_H_
 
-#include <main/php.h>
-#include <main/SAPI.h>
-#include <main/php_main.h>
-#include <main/php_variables.h>
-#include <main/php_ini.h>
+#include <src/php.h>
+#include <src/SAPI.h>
+#include <src/php_main.h>
+#include <src/php_variables.h>
+#include <src/php_ini.h>
 #include <zend_ini.h>
 
 #define PHP_EMBED_START_BLOCK(x,y) { \

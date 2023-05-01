@@ -55,7 +55,7 @@ typedef int32_t zend_off_t;
 
 #ifdef ZEND_ENABLE_ZVAL_LONG64
 #if defined(_WIN64) || defined(_WIN32)
-#define ZEND_LONG_FMT "%li"
+#define ZEND_LONG_FMT "%lli"
 #define ZEND_ULONG_FMT "%llo"
 # define ZEND_XLONG_FMT "%lx"
 #else
