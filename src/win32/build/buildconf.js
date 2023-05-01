@@ -210,6 +210,7 @@ modules = file_get_contents("src/win32/build/config.w32");
 
 // Pick up confs from TSRM and Zend if present
 find_config_w32(".");
+find_config_w32("src");
 find_config_w32("src\\sapi");
 find_config_w32("src\\ext");
 find_config_w32("src\\Zend");
