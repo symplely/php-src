@@ -12,7 +12,6 @@ if NOT EXIST php-sdk (
 )
 
 if NOT DEFINED ARCH set ARCH=x64
-if NOT DEFINED PHP_TS set ZTS=--disable-zts
 
 if NOT EXIST php-sdk\phpdev\%CRT%\%ARCH% (mkdir php-sdk\phpdev\%CRT%\%ARCH%)
 if NOT EXIST php-sdk\phpdev\%CRT%\%ARCH%\php-%PHP_VER% (
