@@ -275,3 +275,4 @@ php-src-*/
 php-sdk/
 .vscode/settings.json
 main/
+config.nice.bat
