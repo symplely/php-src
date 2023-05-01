@@ -202,8 +202,11 @@ static int php_password_bcrypt_get_info(zval *return_value, const zend_string *h
 		/* Should never get called this way. */
 		return FAILURE;
 	}
-
+#if defined(_WIN64) || defined(_WIN32)
+	sscanf(ZSTR_VAL(hash), "$2y$%lli$", &cost);
+#else
 	sscanf(ZSTR_VAL(hash), "$2y$" ZEND_LONG_FMT "$", &cost);
+#endif
 	add_assoc_long(return_value, "cost", cost);
 
 	return SUCCESS;
@@ -219,7 +222,11 @@ static zend_bool php_password_bcrypt_needs_rehash(const zend_string *hash, zend_
 		return 1;
 	}
 
+#if defined(_WIN64) || defined(_WIN32)
+	sscanf(ZSTR_VAL(hash), "$2y$%lli$", &old_cost);
+#else
 	sscanf(ZSTR_VAL(hash), "$2y$" ZEND_LONG_FMT "$", &old_cost);
+#endif
 	if (options && (znew_cost = zend_hash_str_find(options, "cost", sizeof("cost")-1)) != NULL) {
 		new_cost = zval_get_long(znew_cost);
 	}
