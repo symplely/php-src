@@ -18,10 +18,6 @@ if NOT EXIST php-sdk\phpdev\%CRT%\%ARCH%\php-%PHP_VER% (
 	mklink /j "php-sdk\phpdev\%CRT%\%ARCH%\php-%PHP_VER%" .
 )
 
-if NOT EXIST main (
-	mklink /j "main" src
-)
-
 cd php-sdk
 
 set "VSCMD_START_DIR=%CD%"
@@ -31,6 +27,7 @@ set PHP_SDK_ROOT_PATH=%PHP_SDK_ROOT_PATH:~0,-1%
 set PHP_SDK_RUN_FROM_ROOT=.\php-sdk
 
 copy /Y ..\cmd\phpsdk_setshell.bat bin\phpsdk_setshell.bat
+copy /Y ..\cmd\Config.php lib\php\libsdk\SDK\Config.php
 
 bin\phpsdk_setshell.bat %CRT% %ARCH% && bin\phpsdk_setvars.bat && bin\phpsdk_dumpenv.bat && bin\phpsdk_buildtree.bat phpdev && cd php-%PHP_VER% && ..\..\..\..\bin\phpsdk_deps -u --no-backup && if EXIST config.nice.bat (
   config.nice.bat && nmake %SNAP% && cd ..\..\..\..\..
