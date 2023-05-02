@@ -488,9 +488,9 @@ if (!is_dir($test_dir)) {
 }
 
 $dirs = array(
-    'ext',
-    'Sapi',
-    'Zend',
+    'src/ext',
+    'src/Sapi',
+    'src/Zend',
     'tests'
 );
 foreach ($dirs as $dir) {
