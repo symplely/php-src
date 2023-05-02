@@ -58,9 +58,9 @@ phpize_check_configm4()
 phpize_get_api_numbers()
 {
   # extracting API NOs:
-  PHP_API_VERSION=`grep '#define PHP_API_VERSION' $includedir/main/php.h|$SED 's/#define PHP_API_VERSION//'`
-  ZEND_MODULE_API_NO=`grep '#define ZEND_MODULE_API_NO' $includedir/Zend/zend_modules.h|$SED 's/#define ZEND_MODULE_API_NO//'`
-  ZEND_EXTENSION_API_NO=`grep '#define ZEND_EXTENSION_API_NO' $includedir/Zend/zend_extensions.h|$SED 's/#define ZEND_EXTENSION_API_NO//'`
+  PHP_API_VERSION=`grep '#define PHP_API_VERSION' $includedir/src/php.h|$SED 's/#define PHP_API_VERSION//'`
+  ZEND_MODULE_API_NO=`grep '#define ZEND_MODULE_API_NO' $includedir/src/Zend/zend_modules.h|$SED 's/#define ZEND_MODULE_API_NO//'`
+  ZEND_EXTENSION_API_NO=`grep '#define ZEND_EXTENSION_API_NO' $includedir/src/Zend/zend_extensions.h|$SED 's/#define ZEND_EXTENSION_API_NO//'`
 }
 
 phpize_print_api_numbers()

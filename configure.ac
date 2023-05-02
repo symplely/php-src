@@ -10,15 +10,15 @@ m4_include([build/libtool.m4])
 m4_include([build/php_cxx_compile_stdcxx.m4])
 m4_include([build/php.m4])
 m4_include([build/pkg.m4])
-m4_include([TSRM/threads.m4])
-m4_include([TSRM/tsrm.m4])
+m4_include([src/TSRM/threads.m4])
+m4_include([src/TSRM/tsrm.m4])
 
 dnl Basic autoconf initialization, generation of config.nice.
 dnl ----------------------------------------------------------------------------
 
 AC_PREREQ([2.71])
 AC_INIT([PHP],[7.4.33],[https://bugs.php.net],[php],[https://www.php.net])
-AC_CONFIG_SRCDIR([main/php_version.h])
+AC_CONFIG_SRCDIR([src/php_version.h])
 AC_CONFIG_AUX_DIR([build])
 AC_PRESERVE_HELP_ORDER
 
@@ -26,7 +26,7 @@ PHP_CONFIG_NICE(config.nice)
 
 PHP_CANONICAL_HOST_TARGET
 
-AC_CONFIG_HEADERS([main/php_config.h])
+AC_CONFIG_HEADERS([src/php_config.h])
 
 AH_TOP([
 #ifndef PHP_CONFIG_H
@@ -141,10 +141,10 @@ echo "#define PHP_RELEASE_VERSION $PHP_RELEASE_VERSION" >> php_version.h.new
 echo "#define PHP_EXTRA_VERSION \"$PHP_EXTRA_VERSION\"" >> php_version.h.new
 echo "#define PHP_VERSION \"$PHP_VERSION\"" >> php_version.h.new
 echo "#define PHP_VERSION_ID $PHP_VERSION_ID" >> php_version.h.new
-cmp php_version.h.new $srcdir/main/php_version.h >/dev/null 2>&1
+cmp php_version.h.new $srcdir/src/php_version.h >/dev/null 2>&1
 if test $? -ne 0 ; then
-  rm -f $srcdir/main/php_version.h && mv php_version.h.new $srcdir/main/php_version.h && \
-  echo 'Updated main/php_version.h'
+  rm -f $srcdir/src/php_version.h && mv php_version.h.new $srcdir/src/php_version.h && \
+  echo 'Updated src/php_version.h'
 else
   rm -f php_version.h.new
 fi
@@ -309,7 +309,7 @@ esac
 dnl Include Zend configurations.
 dnl ----------------------------------------------------------------------------
 
-sinclude(Zend/Zend.m4)
+sinclude(src/Zend/Zend.m4)
 
 dnl ----------------------------------------------------------------------------
 
@@ -329,7 +329,7 @@ SAPI_LIBTOOL=libphp[]$PHP_MAJOR_VERSION[.la]
 
 PHP_CONFIGURE_PART(Configuring SAPI modules)
 
-esyscmd(./build/config-stubs sapi)
+esyscmd(./build/config-stubs src/sapi)
 
 dnl Show which main SAPI was selected.
 AC_MSG_CHECKING([for chosen SAPI module])
@@ -979,9 +979,9 @@ PHP_ARG_ENABLE([dtrace],
 
 if test "$PHP_DTRACE" = "yes"; then
   AC_CHECK_HEADERS([sys/sdt.h], [
-    PHP_INIT_DTRACE([Zend/zend_dtrace.d],[Zend/zend_dtrace_gen.h],[main/main.c Zend/zend_API.c \
-      Zend/zend_execute.c Zend/zend_exceptions.c \
-      Zend/zend_dtrace.c Zend/zend.c])
+    PHP_INIT_DTRACE([src/Zend/zend_dtrace.d],[src/Zend/zend_dtrace_gen.h],[src/main.c src/Zend/zend_API.c \
+      src/Zend/zend_execute.c src/Zend/zend_exceptions.c \
+      src/Zend/zend_dtrace.c src/Zend/zend.c])
     AC_DEFINE(HAVE_DTRACE, 1, [Whether to enable DTrace support])
     PHP_SUBST(PHP_DTRACE_OBJS)
   ], [
@@ -1176,12 +1176,12 @@ AC_DEFINE(ZTS,1,[ ])
 PHP_THREAD_SAFETY=yes
 enable_maintainer_zts="yes"
 
-INCLUDES="$INCLUDES -I\$(top_builddir)/TSRM"
-INCLUDES="$INCLUDES -I\$(top_builddir)/Zend"
+INCLUDES="$INCLUDES -I\$(top_builddir)/src/TSRM"
+INCLUDES="$INCLUDES -I\$(top_builddir)/src/Zend"
 
 if test "$abs_srcdir" != "$abs_builddir"; then
-  INCLUDES="$INCLUDES -I\$(top_srcdir)/main -I\$(top_srcdir)/Zend"
-  INCLUDES="$INCLUDES -I\$(top_srcdir)/TSRM -I\$(top_builddir)/"
+  INCLUDES="$INCLUDES -I\$(top_srcdir)/src -I\$(top_srcdir)/src/Zend"
+  INCLUDES="$INCLUDES -I\$(top_srcdir)/src/TSRM -I\$(top_builddir)/"
 fi
 
 ZEND_EXTRA_LIBS="$LIBS"
@@ -1228,7 +1228,7 @@ libdir=`eval echo $libdir`
 datadir=`eval eval echo $datadir`
 
 dnl Build extension directory path.
-ZEND_MODULE_API_NO=`$EGREP '#define ZEND_MODULE_API_NO ' $srcdir/Zend/zend_modules.h|"${SED}" 's/#define ZEND_MODULE_API_NO //'`
+ZEND_MODULE_API_NO=`$EGREP '#define ZEND_MODULE_API_NO ' $srcdir/src/Zend/zend_modules.h|"${SED}" 's/#define ZEND_MODULE_API_NO //'`
 
 if test -z "$EXTENSION_DIR"; then
   extbasedir=$ZEND_MODULE_API_NO
@@ -1464,27 +1464,27 @@ PHP_SUBST(all_targets)
 PHP_SUBST(install_targets)
 PHP_SUBST(install_binary_targets)
 
-PHP_INSTALL_HEADERS([Zend/ TSRM/ include/ main/ main/streams/])
+PHP_INSTALL_HEADERS([src/Zend/ src/TSRM/ include/ src/ src/streams/])
 
-PHP_ADD_SOURCES(TSRM, TSRM.c, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+PHP_ADD_SOURCES(src/TSRM, TSRM.c, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-PHP_ADD_SOURCES(main, main.c snprintf.c spprintf.c \
+PHP_ADD_SOURCES(src, main.c snprintf.c spprintf.c \
        fopen_wrappers.c alloca.c  php_scandir.c \
        php_ini.c SAPI.c rfc1867.c php_content_types.c strlcpy.c \
        strlcat.c explicit_bzero.c mergesort.c reentrancy.c php_variables.c php_ticks.c \
        network.c php_open_temporary_file.c \
        output.c getopt.c php_syslog.c, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-PHP_ADD_SOURCES_X(main, fastcgi.c, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1, PHP_FASTCGI_OBJS, no)
+PHP_ADD_SOURCES_X(src, fastcgi.c, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1, PHP_FASTCGI_OBJS, no)
 
-PHP_ADD_SOURCES(main/streams, streams.c cast.c memory.c filter.c \
+PHP_ADD_SOURCES(src/streams, streams.c cast.c memory.c filter.c \
        plain_wrapper.c userspace.c transports.c xp_socket.c mmap.c \
        glob_wrapper.c, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
 
-PHP_ADD_SOURCES(/main, internal_functions.c, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1, sapi)
-PHP_ADD_SOURCES_X(/main, internal_functions_cli.c, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1, PHP_BINARY_OBJS)
+PHP_ADD_SOURCES(/src, internal_functions.c, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1, src/sapi)
+PHP_ADD_SOURCES_X(/src, internal_functions_cli.c, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1, PHP_BINARY_OBJS)
 
-PHP_ADD_SOURCES(Zend, \
+PHP_ADD_SOURCES(src/Zend, \
     zend_language_parser.c zend_language_scanner.c \
     zend_ini_parser.c zend_ini_scanner.c \
     zend_alloc.c zend_compile.c zend_constants.c zend_dtrace.c \
@@ -1507,14 +1507,14 @@ else
   flag=
 fi
 
-PHP_ADD_SOURCES_X(Zend, zend_execute.c, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1,PHP_GLOBAL_OBJS,,$flag)
+PHP_ADD_SOURCES_X(src/Zend, zend_execute.c, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1,PHP_GLOBAL_OBJS,,$flag)
 
-PHP_ADD_BUILD_DIR(main main/streams)
-PHP_ADD_BUILD_DIR(TSRM)
-PHP_ADD_BUILD_DIR(Zend)
+PHP_ADD_BUILD_DIR(src src/streams)
+PHP_ADD_BUILD_DIR(src/TSRM)
+PHP_ADD_BUILD_DIR(src/Zend)
 
 PHP_ADD_MAKEFILE_FRAGMENT($abs_srcdir/scripts/Makefile.frag,$abs_srcdir/scripts,scripts)
-PHP_ADD_MAKEFILE_FRAGMENT($abs_srcdir/Zend/Makefile.frag,$abs_srcdir/Zend,Zend)
+PHP_ADD_MAKEFILE_FRAGMENT($abs_srcdir/src/Zend/Makefile.frag,$abs_srcdir/Zend,Zend)
 
 PHP_GEN_BUILD_DIRS
 PHP_GEN_GLOBAL_MAKEFILE
@@ -1526,7 +1526,7 @@ $php_shtool mkdir -p pear
 $php_shtool mkdir -p scripts
 $php_shtool mkdir -p scripts/man1
 
-ALL_OUTPUT_FILES="main/build-defs.h \
+ALL_OUTPUT_FILES="src/build-defs.h \
 scripts/phpize scripts/man1/phpize.1 \
 scripts/php-config scripts/man1/php-config.1 \
 $PHP_OUTPUT_FILES"
@@ -1534,7 +1534,7 @@ $PHP_OUTPUT_FILES"
 dnl Generate build files.
 AC_CONFIG_FILES([$ALL_OUTPUT_FILES])
 
-AC_CONFIG_COMMANDS_PRE([PHP_PATCH_CONFIG_HEADERS([main/php_config.h.in])])
+AC_CONFIG_COMMANDS_PRE([PHP_PATCH_CONFIG_HEADERS([src/php_config.h.in])])
 
 AC_CONFIG_COMMANDS([default],[
 cat <<X
@@ -1561,17 +1561,17 @@ dnl Create configuration headers.
 dnl ----------------------------------------------------------------------------
 test -d Zend || $php_shtool mkdir Zend
 
-cat >Zend/zend_config.h <<FEO
-#include <../main/php_config.h>
+cat >src/Zend/zend_config.h <<FEO
+#include <../src/php_config.h>
 FEO
 
 dnl Run this only when generating all the files.
 if test -n "\$REDO_ALL"; then
-  echo "creating main/internal_functions.c"
-  AWK="$AWK" sh $srcdir/build/genif.sh $srcdir/main/internal_functions.c.in "$EXT_STATIC" > main/internal_functions.c
+  echo "creating src/internal_functions.c"
+  AWK="$AWK" sh $srcdir/build/genif.sh $srcdir/src/internal_functions.c.in "$EXT_STATIC" > src/internal_functions.c
 
-  echo "creating main/internal_functions_cli.c"
-  AWK="$AWK" sh $srcdir/build/genif.sh $srcdir/main/internal_functions.c.in "$EXT_CLI_STATIC" > main/internal_functions_cli.c
+  echo "creating src/internal_functions_cli.c"
+  AWK="$AWK" sh $srcdir/build/genif.sh $srcdir/src/internal_functions.c.in "$EXT_CLI_STATIC" > src/internal_functions_cli.c
 
     if test "$PHP_SAPI" = "apache2handler"; then
       if test "$APACHE_VERSION" -ge 2004001; then

@@ -16,7 +16,7 @@
 #               AWK=/path/to/awk genif.sh ...
 #
 # USAGE EXAMPLE:
-#   AWK=nawk ./build/genif.sh ./main/internal_functions.c.in "date;ext/date spl;ext/spl" > ./main/internal_functions.c
+#   AWK=nawk ./build/genif.sh ./src/internal_functions.c.in "date;src/ext/date spl;src/ext/spl" > ./src/internal_functions.c
 
 AWK=${AWK:-awk}
 template=$1
