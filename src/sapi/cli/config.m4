@@ -21,7 +21,7 @@ if test "$cli_cv_var_PS_STRINGS" = yes ; then
 fi
 
 AC_MSG_CHECKING(for CLI build)
-if test "$PHP_CLI" != "no"; then
+
   PHP_ADD_MAKEFILE_FRAGMENT($abs_srcdir/src/sapi/cli/Makefile.frag)
 
   dnl Set filename.
@@ -57,5 +57,4 @@ if test "$PHP_CLI" != "no"; then
   PHP_OUTPUT(src/sapi/cli/php.1)
 
   PHP_INSTALL_HEADERS([src/sapi/cli/cli.h])
-fi
 AC_MSG_RESULT($PHP_CLI)

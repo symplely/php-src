@@ -3,7 +3,6 @@ PHP_ARG_WITH([ffi],
   [AS_HELP_STRING([--with-ffi],
     [Include FFI support])])
 
-if test "$PHP_FFI" != "no"; then
   PKG_CHECK_MODULES([FFI], [libffi >= 3.0.11])
 
   PHP_EVAL_INCLINE($FFI_CFLAGS)
@@ -106,4 +105,3 @@ if test "$PHP_FFI" != "no"; then
 
   PHP_NEW_EXTENSION(ffi, ffi.c ffi_parser.c, $ext_shared,, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
   PHP_SUBST(FFI_SHARED_LIBADD)
-fi
