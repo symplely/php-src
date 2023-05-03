@@ -7,7 +7,6 @@ PHP_ARG_ENABLE([embed],,
 
 AC_MSG_CHECKING([for embedded SAPI library support])
 
-if test "$PHP_EMBED" != "no"; then
   case "$PHP_EMBED" in
     yes|shared)
       PHP_EMBED_TYPE=shared
@@ -26,6 +25,3 @@ if test "$PHP_EMBED" != "no"; then
     PHP_INSTALL_HEADERS([src/sapi/embed/php_embed.h])
   fi
   AC_MSG_RESULT([$PHP_EMBED_TYPE])
-else
-  AC_MSG_RESULT(no)
-fi
